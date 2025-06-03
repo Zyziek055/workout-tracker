@@ -69,6 +69,16 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<configuration>
+					<url>jdbc:mysql://localhost:3306/workout_tracker_api</url>
+					<user>root</user>
+					<password>rootroot</password>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 

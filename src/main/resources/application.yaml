@@ -7,3 +7,9 @@ spring:
     password: rootroot
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+
+
