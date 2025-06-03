@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: workout-tracker
+  datasource:
+    url: jdbc:mysql://localhost:3306/workout_tracker_api?createDatabaseIfNotExist=true
+    username: root
+    password: rootroot
+  jpa:
+    show-sql: true
