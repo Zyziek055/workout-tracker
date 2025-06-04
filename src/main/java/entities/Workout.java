@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class Workout {
     private String description;
 
     @Column(name = "date")
-    private String date;
+    private LocalDate date;
 
     @Column(name = "time")
     private LocalTime time;
