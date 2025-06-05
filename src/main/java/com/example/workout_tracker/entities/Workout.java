@@ -1,4 +1,4 @@
-package entities;
+package com.example.workout_tracker.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
