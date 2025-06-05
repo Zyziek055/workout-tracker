@@ -14,8 +14,8 @@ public class WorkoutDto {
     private String description;
     private LocalDate date;
     private LocalTime time;
-    private Long userId; // Tylko ID, nie cały obiekt
-    private List<WorkoutEntryDto> entries;
+    private Long userId;
+    private List<WorkoutEntryDto> entries = new ArrayList<>();
 
 
 }
