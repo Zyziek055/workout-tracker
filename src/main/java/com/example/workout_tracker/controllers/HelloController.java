@@ -1,4 +1,4 @@
-package com.example.workout_tracker.Controllers;
+package com.example.workout_tracker.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
