@@ -19,22 +19,16 @@ CREATE TABLE profiles (
 );
 
 
-CREATE TABLE profiles (
-                          id BIGINT NOT NULL PRIMARY KEY,
-                          bio LONGTEXT NULL,
-                          phone_number VARCHAR(15) NULL,
-                          date_of_birth  date NULL,
-                          weight INT NULL,
-                          height INT NULL,
-                          gender VARCHAR(10) NOT NULL
+CREATE TABLE workouts (
+                          id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                          name VARCHAR(255) NOT NULL,
+                          description TEXT,
+                          date DATE NOT NULL,
+                          time TIME NOT NULL,
+                          user_id BIGINT NOT NULL,
+                          CONSTRAINT workouts_users_id_fk FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-alter table profiles
-    add user_id BIGINT not null;
-
-alter table profiles
-    add constraint profiles_users_id_fk
-        foreign key (user_id) references users (id);
 
 CREATE TABLE workout_entries (
                                  id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -43,9 +37,6 @@ CREATE TABLE workout_entries (
                                  description VARCHAR(255) NULL,
                                  sets INT NOT NULL,
                                  reps INT NOT NULL,
-                                 weight DECIMAL(5,2) NOT NULL
+                                 weight DECIMAL(5,2) NOT NULL,
+                                 CONSTRAINT workout_entries_workouts_id_fk FOREIGN KEY (workout_id) REFERENCES workouts(id)
 );
-
-alter table workout_entries
-    add constraint workout_entries_workouts_id_fk
-        foreign key (workout_id) references workouts (id);
