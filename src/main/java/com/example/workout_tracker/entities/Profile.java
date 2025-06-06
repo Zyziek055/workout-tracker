@@ -25,17 +25,16 @@ public class Profile {
     private LocalDate dateOfBirth;
 
     @Column(name = "weight")
-    private BigDecimal weight;
+    private int weight;
 
     @Column(name = "height")
-    private BigDecimal height;
+    private int height;
 
     @Column(name = "gender")
     private String gender;
 
-
-    @OneToOne
-    @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
+    @MapsId
     private User user;
 }
