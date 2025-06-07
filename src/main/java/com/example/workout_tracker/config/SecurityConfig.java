@@ -28,9 +28,10 @@ public class SecurityConfig {
                         c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        c -> c.requestMatchers("/carts/**").permitAll()
+                        c ->
+                                c.requestMatchers("/users/**").permitAll() //delete later
+                                .requestMatchers("/carts/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/users").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/users").permitAll() //delete later
                                 .anyRequest().authenticated()
                 );
 
