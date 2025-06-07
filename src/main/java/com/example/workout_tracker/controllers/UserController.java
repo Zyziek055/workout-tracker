@@ -4,6 +4,7 @@ import com.example.workout_tracker.dtos.RegisterUserRequest;
 import com.example.workout_tracker.dtos.UserDto;
 import com.example.workout_tracker.mappers.UserMapper;
 import com.example.workout_tracker.repositories.UserRepository;
+import com.example.workout_tracker.services.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
     @GetMapping
     public Iterable<UserDto> getAllUsers (
@@ -32,19 +34,12 @@ public class UserController {
             sort = "name";
         }
 
-        return userRepository.findAll(Sort.by(sort))
-                .stream()
-                .map(userMapper::toDto)
-                .toList();
+        return userService.getAllUsers(sort);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
-        var user = userRepository.findById(id).orElse(null);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(userMapper.toDto(user));
+        return userService.getUser(id);
     }
 
     @PostMapping
@@ -52,27 +47,12 @@ public class UserController {
             @Valid @RequestBody RegisterUserRequest request,
             UriComponentsBuilder uriBuilder //this builds response url
     ) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            return ResponseEntity.badRequest().body(
-                    Map.of("email", "Email is already taken")
-            );
-        };
-        var user = userMapper.toEntity(request);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        var userDto = userMapper.toDto(user);
-        var uri = uriBuilder.path("/users/{id}").buildAndExpand(userDto.getId()).toUri();
-        return ResponseEntity.created(uri).body(userDto);
+        return userService.registerUser(request, uriBuilder);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        var user = userRepository.findById(id).orElse(null);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-        userRepository.delete(user);
-        return ResponseEntity.noContent().build();
+        return userService.deleteUser(id);
     }
 }
 
