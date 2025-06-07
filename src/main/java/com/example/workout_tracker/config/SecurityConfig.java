@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         c ->
                                 c.requestMatchers("/users/**").permitAll() //delete later
+                                .requestMatchers("/{userId}/**").permitAll()//delete later
                                 .requestMatchers("/carts/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/users").permitAll()
                                 .anyRequest().authenticated()
