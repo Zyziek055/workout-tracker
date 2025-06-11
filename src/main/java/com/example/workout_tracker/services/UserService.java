@@ -2,24 +2,24 @@ package com.example.workout_tracker.services;
 
 import com.example.workout_tracker.dtos.RegisterUserRequest;
 import com.example.workout_tracker.dtos.UserDto;
-import com.example.workout_tracker.entities.User;
+import org.springframework.security.core.userdetails.User;
 import com.example.workout_tracker.mappers.UserMapper;
 import com.example.workout_tracker.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-@Service
 @AllArgsConstructor
-public class UserService {
+@Service
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
@@ -64,5 +64,17 @@ public class UserService {
         }
         userRepository.delete(user);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
+        var user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return new User(
+                user.getEmail(),
+                user.getPassword(),
+                Collections.emptyList()
+        );
+
     }
 }
