@@ -49,8 +49,10 @@ public class SecurityConfig {
                         c ->
                                 c.requestMatchers("/users/**").permitAll() //delete later
                                 .requestMatchers("/{userId}/**").permitAll()//delete later
-                                .requestMatchers("/carts/**").permitAll()
-                                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll().anyRequest().authenticated()
+                                .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/auth/validate").permitAll()
+                                .anyRequest().authenticated()
                 );
 
         return http.build();
