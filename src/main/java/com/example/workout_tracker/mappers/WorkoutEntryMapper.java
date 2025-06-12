@@ -1,5 +1,6 @@
 package com.example.workout_tracker.mappers;
 
+import com.example.workout_tracker.dtos.AddWorkoutEntryRequest;
 import com.example.workout_tracker.dtos.WorkoutEntryDto;
 import com.example.workout_tracker.entities.WorkoutEntry;
 import org.mapstruct.Mapper;
@@ -10,6 +11,6 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring")
 public interface WorkoutEntryMapper {
     WorkoutEntryDto toDto(WorkoutEntry workoutEntry);
-    WorkoutEntry toEntity(WorkoutEntryDto workoutEntryDto);
+    WorkoutEntry toEntity(AddWorkoutEntryRequest request);
 
 }

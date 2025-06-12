@@ -1,7 +1,9 @@
 package com.example.workout_tracker.controllers;
 
+import com.example.workout_tracker.dtos.AddWorkoutEntryRequest;
 import com.example.workout_tracker.dtos.AddWorkoutRequest;
 import com.example.workout_tracker.dtos.WorkoutDto;
+import com.example.workout_tracker.repositories.WorkoutRepository;
 import com.example.workout_tracker.services.WorkoutService;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.Response;
@@ -30,6 +32,14 @@ public class WorkoutController {
                            UriComponentsBuilder uriBuilder
     ) {
         return workoutService.addWorkout(userId, addWorkoutRequest, uriBuilder);
+    }
+
+    @PostMapping("/{workoutId}")
+    public ResponseEntity<?> addWorkoutEntry(
+            @PathVariable Long workoutId,
+            @RequestBody AddWorkoutEntryRequest request
+    ){
+        return workoutService.addWorkoutEntry(workoutId, request);
     }
 
 }
