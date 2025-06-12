@@ -1,7 +1,9 @@
 package com.example.workout_tracker.services;
 
 import com.example.workout_tracker.dtos.RegisterUserRequest;
+import com.example.workout_tracker.dtos.UpdateUserRequest;
 import com.example.workout_tracker.dtos.UserDto;
+import org.hibernate.sql.Update;
 import org.springframework.security.core.userdetails.User;
 import com.example.workout_tracker.mappers.UserMapper;
 import com.example.workout_tracker.repositories.UserRepository;
@@ -66,6 +68,16 @@ public class UserService implements UserDetailsService {
         return ResponseEntity.noContent().build();
     }
 
+    public ResponseEntity<?> updateUser(Long id, UpdateUserRequest request) {
+        var user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        userMapper.update(request, user);
+        userRepository.save(user);
+        return ResponseEntity.ok(userMapper.toDto(user));
+
+    }
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
         var user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -77,4 +89,6 @@ public class UserService implements UserDetailsService {
         );
 
     }
+
+
 }

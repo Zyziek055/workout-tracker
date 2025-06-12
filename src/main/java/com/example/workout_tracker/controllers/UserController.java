@@ -1,6 +1,7 @@
 package com.example.workout_tracker.controllers;
 
 import com.example.workout_tracker.dtos.RegisterUserRequest;
+import com.example.workout_tracker.dtos.UpdateUserRequest;
 import com.example.workout_tracker.dtos.UserDto;
 import com.example.workout_tracker.mappers.UserMapper;
 import com.example.workout_tracker.repositories.UserRepository;
@@ -53,6 +54,14 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser(
+            @PathVariable Long id,
+            @RequestBody UpdateUserRequest request
+    ) {
+        return userService.updateUser(id, request);
     }
 }
 
