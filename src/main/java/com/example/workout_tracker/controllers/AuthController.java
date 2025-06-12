@@ -23,6 +23,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final UserRepository userRepository;
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(
@@ -32,6 +33,7 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
 
+        var id = userRepository.findByEmail(request.getEmail()).orElseThrow().getId();
         var token = jwtService.generateToken(request.getEmail());
         return ResponseEntity.ok(new JwtResponse(token));
     }
