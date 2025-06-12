@@ -6,6 +6,7 @@ import com.example.workout_tracker.services.WorkoutService;
 import lombok.AllArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -13,14 +14,13 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/{userId}/workouts") //This is wrong, but I'll make it /workouts after I figure
-//out how to do proper authetication with JWT tokens
+@RequestMapping("/workouts")
 public class WorkoutController {
     private final WorkoutService workoutService;
 
     @GetMapping
-    public List<WorkoutDto> getUsersWorkouts(@PathVariable Long userId) {
-        return workoutService.getUsersWorkouts(userId);
+    public List<WorkoutDto> getUsersWorkouts(Authentication Authentication) {
+        return workoutService.getUsersWorkouts(Authentication);
     }
 
     @PostMapping

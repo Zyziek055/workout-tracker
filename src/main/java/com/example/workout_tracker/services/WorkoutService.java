@@ -8,6 +8,7 @@ import com.example.workout_tracker.repositories.UserRepository;
 import com.example.workout_tracker.repositories.WorkoutRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -21,8 +22,9 @@ public class WorkoutService {
     private final WorkoutMapper workoutMapper;
     private final UserRepository userRepository;
 
-    public List<WorkoutDto> getUsersWorkouts(Long userId) {
-      return workoutRepository.findAllByUser_Id(userId)
+    public List<WorkoutDto> getUsersWorkouts(Authentication authentication) {
+        var user = userRepository.findByEmail(authentication.getName()).orElse(null);
+      return workoutRepository.findAllByUser_Id(user.getId())
               .stream()
               .map(workoutMapper::toDto)
               .toList();
